@@ -24,19 +24,5 @@ data "aws_subnets" "default" {
   }
 }
 
-resource "aws_instance" "web" {
-  count = 2
 
-  ami           = var.ami_id
-  instance_type = var.instance_type
-
-  subnet_id = data.aws_subnets.default.ids[count.index]
-
-  vpc_security_group_ids = [aws_security_group.web.id]
-
-  user_data = file("user-data.sh")
-
-  tags = {
-    Name = "devops-web-${count.index + 1}"
-  }
 }
